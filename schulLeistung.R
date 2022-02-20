@@ -23,7 +23,19 @@ corrplot(cordata, type = "upper", order = "hclust",
 # Gegeben sind G1, G2 und G3 für 2 verscheidene Fächer -> Mittelwert um eine Varaible zu erhalten
 
 data$Noten <- (data$G1.x + data$G1.y + data$G2.x + data$G2.y + data$G3.x + data$G3.y)/6
+data$Guardian <- (data$guardian.x)
+data$guardian.x == data$guardian.y
+data$traveltime.x == data$traveltime.y
+
+data$studytime.y == data$studytime.x
+
+
+data$
+
+data
 data2 <- data %>% select(-G1.x,-G1.y,-G2.x,-G2.y,-G3.x,-G3.y)
+
+
 
 
 #Train/Test
