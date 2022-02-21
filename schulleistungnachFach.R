@@ -61,6 +61,8 @@ lines(x = degree, y = cv.errors)
 #10-Fold-Cross Validation Linear, VS Lasso, VS Decision Tree
 
 
+########### lin-reg ############
+
 lm.fit <- lm( 
   formula =  G_average ~ .,  
   data    = traindata
@@ -72,16 +74,30 @@ cv.error <- cv.glm(
   K       = 10
 )
 
+#############################
 
+
+####################### treeee ################
 tree.fit <- tree(
   formula = G_average ~ .,
   data    = traindata
 )
-
-
 summary(tree.fit)
 plot(tree.fit)
 text(tree.fit)
+#########################
+
+
+
+
+############### lasso-reg / ridge reg ################
+
+
+
+
+
+######################
+
 
 cv.port <- cv.tree(tree.fit)
 plot(
