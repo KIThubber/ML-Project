@@ -80,6 +80,18 @@ tree.fit <- tree(
 
 
 summary(tree.fit)
+plot(tree.fit)
+text(tree.fit)
+
+cv.port <- cv.tree(tree.fit)
+plot(
+  x    = cv.BostonHousing$size,
+  y    = cv.BostonHousing$dev,
+  type = "b"
+)
+
+
+
 
 range <- 0:1
 plot(range, cv.error)
