@@ -97,6 +97,87 @@ cv.error <- cv.glm(
 
 cv.error
 #############################
+################################################################################
+################################################################################
+
+
+
+################################################################################
+################################################################################
+
+####ggplot2
+# alles installieren
+install.packages("tidyverse")
+# nur ggplot
+install.packages("ggplot2")
+#
+library(ggplot2)
+
+################################################################################
+## ggplot2
+ggplot(data = port) + 
+  geom_point(mapping = aes(x = age , y = absences, color = sex))
+
+ggplot(data = port) + 
+  geom_point(mapping = aes(x = freetime , y = absences, color = sex))
+
+ggplot(data = port) + 
+  geom_point(mapping = aes(x = freetime , y = studytime, color = "blue"))
+
+# Fehlzeiten, abhängig von Alter und unterteilt in Geschlecht
+ggplot(data = port) + 
+  geom_point(mapping = aes(x = age, y = absences)) + 
+  facet_wrap(~ sex, nrow = 2)
+# Fehlzeiten, abhängig von Alter und unterteilt in Geschlecht und Schule
+ggplot(data = port) + 
+  geom_point(mapping = aes(x = age, y = absences)) + 
+  facet_grid(sex ~ school)
+
+################################################################################
+## Geometrische Objekte
+# Fehlzeiten abh von Alter
+ggplot(data = port) + 
+  geom_smooth(mapping = aes(x = age, y = port$G_average))
+# Fehlzeiten abh von Alter, unterteilt in Geschlecht
+ggplot(data = port) + 
+  geom_smooth(mapping = aes(x = age, y = port$G_average, linetype = sex))
+#
+ggplot(data = port) +
+  geom_smooth(
+    mapping = aes(x = age, y = port$G_average, color = sex),
+    show.legend = FALSE
+  )
+#
+ggplot(data = port) + 
+  geom_point(mapping = aes(x = age, y = port$G_average)) +
+  geom_smooth(mapping = aes(x = age, y = port$G_average))
+#
+ggplot(data = port, mapping = aes(x = age, y = absences)) + 
+  geom_point(mapping = aes(color = sex)) + 
+  geom_smooth()
+#
+ggplot(data = port, mapping = aes(x = age, y = absences)) + 
+  geom_point(mapping = aes(color = sex)) + 
+  geom_smooth(data = filter(mpg, class == "subcompact"), se = FALSE)
+# Filter deklarieren
+filter(x, filter, method = c("convolution", "recursive"),
+       sides = 2, circular = FALSE, init)
+
+# Test
+bar <- ggplot(data = port) + 
+  geom_bar(
+    mapping = aes(x = freetime, fill = absences), 
+    show.legend = FALSE,
+    width = 1)+ 
+  theme(aspect.ratio = 1) +
+  labs(x = NULL, y = NULL)
+  
+bar + coord_flip()
+bar + coord_polar()
+
+################################################################################
+################################################################################
+
 
 
 ####################### treeee ################
