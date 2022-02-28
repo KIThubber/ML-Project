@@ -2,6 +2,11 @@ library(boot) #cv.glm()
 library(tree) #Entscheidungsbaum
 library(glmnet) 
 library(dplyr)
+library(rpart)
+install.packages("rpart.plot")
+library("rpart.plot")
+
+library(corrplot)
 install.packages('Rcpp')
 
 # Leon
@@ -11,7 +16,11 @@ port <- read.table(file="C:/Users/Z00481XT/Desktop/archive/student-por.csv", sep
 math <- read.table(file="C:/Users/Jan/OneDrive/Dokumente/Studium/4_Semester/Data Exploration/Datenset/student-mat.csv", sep = ",", header=TRUE)
 port <- read.table(file="C:/Users/Jan/OneDrive/Dokumente/Studium/4_Semester/Data Exploration/Datenset/student-por.csv", sep = ",", header=TRUE)
 
+port <- read.table(file="C:/Temp/student-por.csv", sep = ",", header=TRUE)
+math <- read.table(file="C:/Temp/student-mat.csv", sep = ",", header=TRUE)
 
+
+View(port)
 port$G_average <- (port$G1 + port$G2 + port$G3)/3
 
 port <- port %>% select(-G1,-G2,-G3)
@@ -23,6 +32,14 @@ set.seed(42) # Zufallsparameter auf 42
 trainingsrows <- sample(nrow(port), nrow(port)*0.8)    # 80% der Gesamtdaten als Trainingsdaten
 traindata <- port[trainingsrows,]
 testdata <- port[-trainingsrows,]
+
+set.seed(42) # Zufallsparameter auf 42
+
+
+trainingsrows <- sample(nrow(port), nrow(port)*0.5)    # 80% der Gesamtdaten als Trainingsdaten
+traindata <- port[trainingsrows,]
+testdata <- port[-trainingsrows,]
+
 
 
 ##########deskriptive statistik
@@ -38,7 +55,12 @@ mean.mqa <- mean(
 mean.mqa
 
 
-
+cordata <- port %>% dplyr::select(where(is.numeric)) #Filtern der nummerischen Variablen
+cordatamatrix <- cor(cordata)#Erstellen einer Korrelationsmatrix
+corrplot(cordatamatrix, type = "upper", order = "hclust", 
+         tl.col = "black", tl.srt = 45)
+cor(cordata[-14], cordata$G_average)
+order(cork)
 
 
 #############################
@@ -51,18 +73,20 @@ glm.polynomial.fit <- vector(mode="list", length=8)
 colnames <- toString(colnames(port))
 formula <- paste('G_average ~ poly(', colnames, ',degree=i, raw=TRUE)')
 
+memory.limit(9999999)
+
 
 for (i in 1:maxdegree){
   
   glm.polynomial.fit[[i]] <- glm(   
-    formula = formula,  
+    formula = G_average ~ poly(school,guardian,studytime,failures,schoolsup,higher,romantic, degree=i, raw=TRUE),  
     data    = traindata
   )
   
   cv.error <- cv.glm(
     data    = traindata,
     glmfit  = glm.polynomial.fit[[i]],
-    K       = 10
+    K       = 5
   )
   
   cv.errors[[i]] <- cv.error$delta[1]  
@@ -86,6 +110,20 @@ lm.fit <- lm(
 )
 
 lm.fit
+
+train.mqa.lm <- mean(
+  (testdata$G_average - predict(lm.fit, newdata=testdata))^2
+)
+
+train.mqa.lm
+###############
+
+lm.fit <- glm( 
+  formula =  G_average ~ .,  
+  data    = traindata
+)
+
+lm.fit
 summary(lm.fit)
 
 
@@ -95,7 +133,7 @@ cv.error <- cv.glm(
   K       = 10
 )
 
-cv.error
+cv.error$delta[1]
 #############################
 ################################################################################
 ################################################################################
@@ -137,26 +175,26 @@ ggplot(data = port) +
 ## Geometrische Objekte
 # Fehlzeiten abh von Alter
 ggplot(data = port) + 
-  geom_smooth(mapping = aes(x = age, y = port$G_average))
+  geom_smooth(mapping = aes(x = age, y = G_average))
 # Fehlzeiten abh von Alter, unterteilt in Geschlecht
 ggplot(data = port) + 
-  geom_smooth(mapping = aes(x = age, y = port$G_average, linetype = sex))
+  geom_smooth(mapping = aes(x = age, y = G_average, linetype = sex))
 #
 ggplot(data = port) +
   geom_smooth(
-    mapping = aes(x = age, y = port$G_average, color = sex),
+    mapping = aes(x = age, y = G_average, color = sex),
     show.legend = FALSE
   )
 #
 ggplot(data = port) + 
-  geom_point(mapping = aes(x = age, y = port$G_average)) +
-  geom_smooth(mapping = aes(x = age, y = port$G_average))
+  geom_point(mapping = aes(x = age, y = G_average)) +
+  geom_smooth(mapping = aes(x = age, y = G_average))
 #
-ggplot(data = port, mapping = aes(x = age, y = absences)) + 
+ggplot(data = port, mapping = aes(x = age, y = G_average)) + 
   geom_point(mapping = aes(color = sex)) + 
   geom_smooth()
 #
-ggplot(data = port, mapping = aes(x = age, y = absences)) + 
+ggplot(data = port, mapping = aes(x = age, y = G_average)) + 
   geom_point(mapping = aes(color = sex)) + 
   geom_smooth(data = filter(mpg, class == "subcompact"), se = FALSE)
 # Filter deklarieren
@@ -166,7 +204,7 @@ filter(x, filter, method = c("convolution", "recursive"),
 # Test
 bar <- ggplot(data = port) + 
   geom_bar(
-    mapping = aes(x = freetime, fill = absences), 
+    mapping = aes(x = freetime, fill = G_average), 
     show.legend = FALSE,
     width = 1)+ 
   theme(aspect.ratio = 1) +
@@ -174,13 +212,31 @@ bar <- ggplot(data = port) +
   
 bar + coord_flip()
 bar + coord_polar()
+################################################################################
+## Kontingenzkoeffizient
+install.packages("DescTools")
+libary(DescTools)
 
+tab <- table(port$sex, port$G_average)
+
+Assocs(tab)
+
+chisq.test(port$sex, port$G_average)
+chisq.test(port$freetime, port$G_average)
 ################################################################################
 ################################################################################
 
 
 
 ####################### treeee ################
+n <- nrow(traindata)
+set.seed(42)
+trainingRows <- sample(n,0.8*n)
+
+TreeTrain    <- traindata[trainingRows,]
+TreeTest     <- traindata[-trainingRows,]
+
+
 tree.fit <- tree(
   formula = G_average ~ .,
   data    = traindata
@@ -188,6 +244,45 @@ tree.fit <- tree(
 summary(tree.fit)
 plot(tree.fit)
 text(tree.fit)
+
+default.model <- rpart(formula = G_average ~ ., data = traindata, method="anova",control=rpart.control(minsplit=60, cp=0.001))
+cv.Alk <- cv.tree(overfit.model)
+plot(
+  x    = cv.Alk$size,
+  y    = cv.Alk$dev,
+  type = "b"
+)
+cv.Alk
+pruned.tree <- prune.tree(
+  tree = tree.fit,
+  best = 3
+)
+
+plot(pruned.tree)
+text(pruned.tree)
+
+
+# Trainingsfehler (MQA)
+mean( 
+  ( TreeTrain$G_average - predict(pruned.tree,newdata=TreeTrain) )^2
+)
+
+# Testfehler (MQA)
+mean( 
+  ( TreeTest$G_average - predict(pruned.tree,newdata=TreeTest) )^2
+)
+
+overfit.model <- rpart(G_average ~ ., data = traindata,
+                       maxdepth= 7, minsplit=2,
+                       minbucket = 20)
+rpart.plot(overfit.model)
+printcp(overfit.model)
+summary(overfit.model)
+plot(overfit.model)
+text(overfit.model)
+# printcp(fit)
+# fit$cptable[which.min(fit$cptable[,"xerror"]),"CP"]
+# prune(fit, cp= 1 )
 #########################
 
 
@@ -216,6 +311,8 @@ cv.error <- cv.glm(
 cv.error
 
 lm.fit
+
+summary(lm.fit)
 
 ###Trainingsfehler 5,0197
 train.mqa.lm <- mean(
@@ -358,10 +455,5 @@ mean.mqa
 
 
 
-cordata <- port %>% dplyr::select(where(is.numeric)) #Filtern der nummerischen Variablen
-cordatamatrix <- cor(cordata)#Erstellen einer Korrelationsmatrix
-corrplot(cordatamatrix, type = "upper", order = "hclust", 
-         tl.col = "black", tl.srt = 45)
-cor(cordata[-14], cordata$G_average)
-order(cork)
+
 
