@@ -2,11 +2,16 @@ library(boot) #cv.glm()
 library(tree) #Entscheidungsbaum
 library(glmnet) 
 library(dplyr)
+library(rpart)
+install.packages("rpart.plot")
+library("rpart.plot")
 install.packages('Rcpp')
 
 math <- read.table(file="C:/Users/Z00481XT/Desktop/archive/student-mat.csv", sep = ",", header=TRUE)
 port <- read.table(file="C:/Users/Z00481XT/Desktop/archive/student-por.csv", sep = ",", header=TRUE)
 
+port <- read.table(file="C:/Temp/student-por.csv", sep = ",", header=TRUE)
+math <- read.table(file="C:/Temp/student-mat.csv", sep = ",", header=TRUE)
 
 port$G_average <- (port$G1 + port$G2 + port$G3)/3
 
@@ -96,6 +101,14 @@ cv.error
 
 
 ####################### treeee ################
+n <- nrow(traindata)
+set.seed(42)
+trainingRows <- sample(n,0.8*n)
+
+TreeTrain    <- traindata[trainingRows,]
+TreeTest     <- traindata[-trainingRows,]
+
+
 tree.fit <- tree(
   formula = G_average ~ .,
   data    = traindata
@@ -103,6 +116,45 @@ tree.fit <- tree(
 summary(tree.fit)
 plot(tree.fit)
 text(tree.fit)
+
+default.model <- rpart(formula = G_average ~ ., data = traindata, method="anova",control=rpart.control(minsplit=60, cp=0.001))
+cv.Alk <- cv.tree(overfit.model)
+plot(
+  x    = cv.Alk$size,
+  y    = cv.Alk$dev,
+  type = "b"
+)
+cv.Alk
+pruned.tree <- prune.tree(
+  tree = tree.fit,
+  best = 3
+)
+
+plot(pruned.tree)
+text(pruned.tree)
+
+
+# Trainingsfehler (MQA)
+mean( 
+  ( TreeTrain$G_average - predict(pruned.tree,newdata=TreeTrain) )^2
+)
+
+# Testfehler (MQA)
+mean( 
+  ( TreeTest$G_average - predict(pruned.tree,newdata=TreeTest) )^2
+)
+
+overfit.model <- rpart(G_average ~ ., data = traindata,
+                       maxdepth= 7, minsplit=2,
+                       minbucket = 20)
+rpart.plot(overfit.model)
+printcp(overfit.model)
+summary(overfit.model)
+plot(overfit.model)
+text(overfit.model)
+# printcp(fit)
+# fit$cptable[which.min(fit$cptable[,"xerror"]),"CP"]
+# prune(fit, cp= 1 )
 #########################
 
 

@@ -1,5 +1,9 @@
 d1 <- read.table(file="C:/Users/Z00481XT/Desktop/archive/student-mat.csv", sep = ",", header=TRUE)
 d2 <- read.table(file="C:/Users/Z00481XT/Desktop/archive/student-por.csv", sep = ",", header=TRUE)
+
+d1 <- read.table(file="C:/Temp/student-por.csv", sep = ",", header=TRUE)
+d2 <- read.table(file="C:/Temp/student-mat.csv", sep = ",", header=TRUE)
+
 data <- merge(d1,d2,by=c("school","sex","age","address","famsize","Pstatus","Medu","Fedu","Mjob","Fjob","reason","nursery","internet"))
 print(nrow(data)) # 382 students
 
