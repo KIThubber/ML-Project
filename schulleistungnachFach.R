@@ -2,29 +2,13 @@ library(boot) #cv.glm()
 library(tree) #Entscheidungsbaum
 library(glmnet) 
 library(dplyr)
-<<<<<<< HEAD
-library(rpart)
-install.packages("rpart.plot")
-library("rpart.plot")
-=======
 library(corrplot)
->>>>>>> 5d88b560a9dec7bd6058b6f1b2e72085205049b6
 install.packages('Rcpp')
 
-# Leon
 math <- read.table(file="C:/Users/Z00481XT/Desktop/archive/student-mat.csv", sep = ",", header=TRUE)
 port <- read.table(file="C:/Users/Z00481XT/Desktop/archive/student-por.csv", sep = ",", header=TRUE)
-# Jan
-math <- read.table(file="C:/Users/Jan/OneDrive/Dokumente/Studium/4_Semester/Data Exploration/Datenset/student-mat.csv", sep = ",", header=TRUE)
-port <- read.table(file="C:/Users/Jan/OneDrive/Dokumente/Studium/4_Semester/Data Exploration/Datenset/student-por.csv", sep = ",", header=TRUE)
 
-<<<<<<< HEAD
-port <- read.table(file="C:/Temp/student-por.csv", sep = ",", header=TRUE)
-math <- read.table(file="C:/Temp/student-mat.csv", sep = ",", header=TRUE)
-
-=======
 View(port)
->>>>>>> 5d88b560a9dec7bd6058b6f1b2e72085205049b6
 port$G_average <- (port$G1 + port$G2 + port$G3)/3
 
 port <- port %>% select(-G1,-G2,-G3)
@@ -53,6 +37,8 @@ hist(traindata$G_average)
 sd(traindata$G_average)
 var(traindata$G_average)
 
+
+
 mean.mqa <- mean(
   (testdata$G_average - mean(traindata$G_average))^2
 )
@@ -69,9 +55,9 @@ order(cork)
 
 #############################
 # polynominale Regression, Probleme bei vielen variablen und hohen Graden 'Fehler: kann Vektro der Größe 8GB nicht allozieren'
-maxdegree <- 3
+maxdegree <- 1
 cv.errors          <- rep(0,maxdegree)
-glm.polynomial.fit <- vector(mode="list", length=8)
+glm.polynomial.fit <- vector(mode="list", length=2)
 
 
 colnames <- toString(colnames(port))
@@ -83,18 +69,19 @@ memory.limit(9999999)
 for (i in 1:maxdegree){
   
   glm.polynomial.fit[[i]] <- glm(   
-    formula = G_average ~ poly(school,guardian,studytime,failures,schoolsup,higher,romantic, degree=i, raw=TRUE),  
+    formula = G_average ~ poly(failures,schoolsup,higher,romantic,degree=i,raw=TRUE),  
     data    = traindata
   )
   
   cv.error <- cv.glm(
     data    = traindata,
     glmfit  = glm.polynomial.fit[[i]],
-    K       = 5
+    K       = 2
   )
   
   cv.errors[[i]] <- cv.error$delta[1]  
 }
+
 plot(x=port$G_average, port$age, col="red")
 
 degree <- 1:maxdegree
@@ -139,198 +126,16 @@ cv.error <- cv.glm(
 
 cv.error$delta[1]
 #############################
-################################################################################
-################################################################################
-
-
-
-################################################################################
-################################################################################
-
-####ggplot2
-# alles installieren
-install.packages("tidyverse")
-# nur ggplot
-install.packages("ggplot2")
-#
-library(ggplot2)
-
-################################################################################
-## ggplot2
-ggplot(data = port) + 
-  geom_point(mapping = aes(x = age , y = absences, color = sex))
-
-ggplot(data = port) + 
-  geom_point(mapping = aes(x = freetime , y = absences, color = sex))
-
-ggplot(data = port) + 
-  geom_point(mapping = aes(x = freetime , y = studytime, color = "blue"))
-
-# Fehlzeiten, abhängig von Alter und unterteilt in Geschlecht
-ggplot(data = port) + 
-  geom_point(mapping = aes(x = age, y = absences)) + 
-  facet_wrap(~ sex, nrow = 2)
-# Fehlzeiten, abhängig von Alter und unterteilt in Geschlecht und Schule
-ggplot(data = port) + 
-  geom_point(mapping = aes(x = age, y = absences)) + 
-  facet_grid(sex ~ school)
-
-################################################################################
-## Geometrische Objekte
-# Fehlzeiten abh von Alter
-ggplot(data = port) + 
-  geom_smooth(mapping = aes(x = age, y = port$G_average))
-# Fehlzeiten abh von Alter, unterteilt in Geschlecht
-ggplot(data = port) + 
-  geom_smooth(mapping = aes(x = age, y = port$G_average, linetype = sex))
-#
-ggplot(data = port) +
-  geom_smooth(
-    mapping = aes(x = age, y = port$G_average, color = sex),
-    show.legend = FALSE
-  )
-#
-ggplot(data = port) + 
-  geom_point(mapping = aes(x = age, y = port$G_average)) +
-  geom_smooth(mapping = aes(x = age, y = port$G_average))
-#
-ggplot(data = port, mapping = aes(x = age, y = absences)) + 
-  geom_point(mapping = aes(color = sex)) + 
-  geom_smooth()
-#
-ggplot(data = port, mapping = aes(x = age, y = absences)) + 
-  geom_point(mapping = aes(color = sex)) + 
-  geom_smooth(data = filter(mpg, class == "subcompact"), se = FALSE)
-# Filter deklarieren
-filter(x, filter, method = c("convolution", "recursive"),
-       sides = 2, circular = FALSE, init)
-
-# Test
-bar <- ggplot(data = port) + 
-  geom_bar(
-    mapping = aes(x = freetime, fill = absences), 
-    show.legend = FALSE,
-    width = 1)+ 
-  theme(aspect.ratio = 1) +
-  labs(x = NULL, y = NULL)
-  
-bar + coord_flip()
-bar + coord_polar()
-
-################################################################################
-################################################################################
-
 
 
 ####################### treeee ################
-library(tree)
-
-
-n <- nrow(traindata)
-set.seed(42)
-trainingRows <- sample(n,0.8*n)
-testingRows <- -trainingRows
-
-TreeTrain    <- traindata[trainingRows,]
-TreeTest     <- traindata[testingRows,]
-
-#Baum auf Trainingsdaten
-tree_model = tree(G_average~.,TreeTrain)
-tree_model
-plot(tree_model)
-text(tree_model)
-
-#Test auf Testdaten
-# Trainingsfehler (MQA)
-mean( 
-  ( TreeTrain$G_average - predict(tree_model,newdata=TreeTrain) )^2
-)
-
-# Testfehler (MQA)
-mean( 
-  ( TreeTest$G_average - predict(tree_model,newdata=TreeTest) )^2
-)
-
-
-#Cross Validation
-cv_tree = cv.tree(tree_model)
-names(cv_tree)
-plot(cv_tree$size,
-     cv_tree$dev,
-     type = "b",
-     xlab = "Tree Size",
-     ylab = "MSE")
-
-which.min(cv_tree$dev)
-cv_tree$size[4]
-
-#Prune the Tree to size 2
-
-pruned_model <- prune.tree(tree_model, best = 11)
-plot(pruned_model)
-text(pruned_model)
-
-#check Pruned Model 
-
-# Trainingsfehler (MQA)
-mean( 
-  ( TreeTrain$G_average - predict(pruned_model,newdata=TreeTrain) )^2
-)
-
-# Testfehler (MQA)
-mean( 
-  ( TreeTest$G_average - predict(pruned_model,newdata=TreeTest) )^2
-)
-
-
-
-##alter Teil##
 tree.fit <- tree(
   formula = G_average ~ .,
   data    = traindata
-)al
+)
 summary(tree.fit)
 plot(tree.fit)
 text(tree.fit)
-
-default.model <- rpart(formula = G_average ~ ., data = traindata, method="anova",control=rpart.control(minsplit=60, cp=0.001))
-cv.Alk <- cv.tree(overfit.model)
-plot(
-  x    = cv.Alk$size,
-  y    = cv.Alk$dev,
-  type = "b"
-)
-cv.Alk
-pruned.tree <- prune.tree(
-  tree = tree.fit,
-  best = 3
-)
-
-plot(pruned.tree)
-text(pruned.tree)
-
-
-# Trainingsfehler (MQA)
-mean( 
-  ( TreeTrain$G_average - predict(pruned.tree,newdata=TreeTrain) )^2
-)
-
-# Testfehler (MQA)
-mean( 
-  ( TreeTest$G_average - predict(pruned.tree,newdata=TreeTest) )^2
-)
-
-overfit.model <- rpart(G_average ~ ., data = traindata,
-                       maxdepth= 7, minsplit=2,
-                       minbucket = 20)
-rpart.plot(overfit.model)
-printcp(overfit.model)
-summary(overfit.model)
-plot(overfit.model)
-text(overfit.model)
-# printcp(fit)
-# fit$cptable[which.min(fit$cptable[,"xerror"]),"CP"]
-# prune(fit, cp= 1 )
 #########################
 
 
