@@ -223,14 +223,32 @@ bar + coord_polar()
 
 
 ####################### treeee ################
+library(tree)
+
+
 n <- nrow(traindata)
 set.seed(42)
 trainingRows <- sample(n,0.8*n)
+testingRows <- -trainingRows
 
 TreeTrain    <- traindata[trainingRows,]
-TreeTest     <- traindata[-trainingRows,]
+TreeTest     <- traindata[testingRows,]
+Testing_G_Average <- TreeTest$G_average[testingRows]
 
 
+#Baum auf Trainingsdaten
+tree_model = tree(G_average~.,TreeTrain)
+tree_model
+plot(tree_model)
+text(tree_model)
+
+#Test auf Testdaten
+tree_pred = predict(tree_model, TreeTest)
+mean((tree_pred - Testing_G_Average)^2)
+
+
+
+##alter Teil##
 tree.fit <- tree(
   formula = G_average ~ .,
   data    = traindata
