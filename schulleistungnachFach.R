@@ -233,8 +233,6 @@ testingRows <- -trainingRows
 
 TreeTrain    <- traindata[trainingRows,]
 TreeTest     <- traindata[testingRows,]
-Testing_G_Average <- TreeTest$G_average[testingRows]
-
 
 #Baum auf Trainingsdaten
 tree_model = tree(G_average~.,TreeTrain)
@@ -243,8 +241,46 @@ plot(tree_model)
 text(tree_model)
 
 #Test auf Testdaten
-tree_pred = predict(tree_model, TreeTest)
-mean((tree_pred - Testing_G_Average)^2)
+# Trainingsfehler (MQA)
+mean( 
+  ( TreeTrain$G_average - predict(tree_model,newdata=TreeTrain) )^2
+)
+
+# Testfehler (MQA)
+mean( 
+  ( TreeTest$G_average - predict(tree_model,newdata=TreeTest) )^2
+)
+
+
+#Cross Validation
+cv_tree = cv.tree(tree_model)
+names(cv_tree)
+plot(cv_tree$size,
+     cv_tree$dev,
+     type = "b",
+     xlab = "Tree Size",
+     ylab = "MSE")
+
+which.min(cv_tree$dev)
+cv_tree$size[4]
+
+#Prune the Tree to size 2
+
+pruned_model <- prune.tree(tree_model, best = 11)
+plot(pruned_model)
+text(pruned_model)
+
+#check Pruned Model 
+
+# Trainingsfehler (MQA)
+mean( 
+  ( TreeTrain$G_average - predict(pruned_model,newdata=TreeTrain) )^2
+)
+
+# Testfehler (MQA)
+mean( 
+  ( TreeTest$G_average - predict(pruned_model,newdata=TreeTest) )^2
+)
 
 
 
@@ -252,7 +288,7 @@ mean((tree_pred - Testing_G_Average)^2)
 tree.fit <- tree(
   formula = G_average ~ .,
   data    = traindata
-)
+)al
 summary(tree.fit)
 plot(tree.fit)
 text(tree.fit)
