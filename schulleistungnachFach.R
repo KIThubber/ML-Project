@@ -281,7 +281,7 @@ mean(
 tree.fit <- tree(
   formula = G_average ~ .,
   data    = traindata
-)al
+)
 summary(tree.fit)
 plot(tree.fit)
 text(tree.fit)
