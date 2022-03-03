@@ -2,13 +2,10 @@ library(boot) #cv.glm()
 library(tree) #Entscheidungsbaum
 library(glmnet) 
 library(dplyr)
-<<<<<<< HEAD
 library(rpart)
 install.packages("rpart.plot")
 library("rpart.plot")
-=======
 library(corrplot)
->>>>>>> 5d88b560a9dec7bd6058b6f1b2e72085205049b6
 install.packages('Rcpp')
 
 # Leon
@@ -18,13 +15,9 @@ port <- read.table(file="C:/Users/Z00481XT/Desktop/archive/student-por.csv", sep
 math <- read.table(file="C:/Users/Jan/OneDrive/Dokumente/Studium/4_Semester/Data Exploration/Datenset/student-mat.csv", sep = ",", header=TRUE)
 port <- read.table(file="C:/Users/Jan/OneDrive/Dokumente/Studium/4_Semester/Data Exploration/Datenset/student-por.csv", sep = ",", header=TRUE)
 
-<<<<<<< HEAD
 port <- read.table(file="C:/Temp/student-por.csv", sep = ",", header=TRUE)
 math <- read.table(file="C:/Temp/student-mat.csv", sep = ",", header=TRUE)
 
-=======
-View(port)
->>>>>>> 5d88b560a9dec7bd6058b6f1b2e72085205049b6
 port$G_average <- (port$G1 + port$G2 + port$G3)/3
 
 port <- port %>% select(-G1,-G2,-G3)
