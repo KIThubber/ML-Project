@@ -330,11 +330,12 @@ plot(cv_tree$size,
      ylab = "MSE")
 
 which.min(cv_tree$dev)
-cv_tree$size[4]
+names(cv_tree)
+cv_tree$size[which.min(cv_tree$dev)]
 
 #Prune the Tree to size 2
 
-pruned_model <- prune.tree(tree_model, best = 11)
+pruned_model <- prune.tree(tree_model, best = 2)
 plot(pruned_model)
 text(pruned_model)
 
