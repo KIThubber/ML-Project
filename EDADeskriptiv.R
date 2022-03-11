@@ -18,6 +18,7 @@ cordatamatrix <- cor(cordata)#Erstellen einer Korrelationsmatrix
 corrplot(cordatamatrix, type = "upper", order = "hclust", 
          tl.col = "black", tl.srt = 45)
 
+##### alle kategorialen variablen: school, sex, address, famsize, pstatus, medu, fedu, mjob, fjob, reson, guardian, schoolsup, famsup, paid, activities, nursey, higher, internet, romantic
 
 #######G_Average gegen jede Zielvaraible Grafik######################################
 port_EDA <- port
@@ -65,17 +66,9 @@ p<-ggplot(port_EDA, aes(x=G_average, fill=address, color=address)) +
   scale_x_continuous(breaks=c(2,4,6,8,10,12,14,16,18,20))
 p
 
-
-
-
-
 #######EDA famsize
 
 table(port_EDA$famsize)
-
-
-
-
 
 # template mehr als 2 var
 ######EDA Mjob
@@ -98,17 +91,9 @@ p<-ggplot(port_EDA, aes(x=G_average, y=Mjob)) +
   geom_violin(aes(fill=Mjob, color=Mjob),position="identity", alpha=0.8)+
   scale_x_continuous(breaks=c(2,4,6,8,10,12,14,16,18,20))+
   stat_summary(fun.data="mean_sdl",geom="crossbar", width=0.05 )
-
-
-
 p
 
-
-
- sum(table(port_EDA$Mjob))
-
-
-##### allle kategorialen variablen: school, sex, address, famsize, pstatus, medu, fedu, mjob, fjob, reson, guardian, schoolsup, famsup, paid, activities, nursey, higher, internet, romantic
+sum(table(port_EDA$Mjob))
 
 View(port_EDA)
 
