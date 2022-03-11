@@ -114,6 +114,7 @@ View(port_EDA)
 
 ###############age
 
+
 table(port_EDA$age)
 
 port_EDA$G_average_mean_age[port$age=="15"] <- mean(port_EDA$G_average[port$age=="15"],)
