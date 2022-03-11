@@ -12,6 +12,7 @@ math <- read.table(file="C:/Temp/student-mat.csv", sep = ",", header=TRUE)
 #Berechnung der Durchschnittsnote
 port$G_average <- (port$G1 + port$G2 + port$G3)/3
 port <- port %>% select(-G1,-G2,-G3)
+nrow(port)
 
 #Aufteilung in Trainings und Testdaten 80%
 set.seed(42) # Zufallsparameter auf 42
@@ -29,4 +30,10 @@ trainingsrows <- sample(nrow(port), nrow(port)*0.5)    # 80% der Gesamtdaten als
 traindata <- port[trainingsrows,]
 testdata <- port[-trainingsrows,]
 
+##############Lasso und Ridge DAtenvvorhbereitung
 
+X.train <- model.matrix(G_average ~ ., data = traindata ) [,-1] 
+y.train <- traindata$G_average
+
+X.test <- model.matrix(G_average ~ ., data = testdata )[,-1]  
+y.test <- testdata$G_average
