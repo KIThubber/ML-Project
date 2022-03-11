@@ -5,7 +5,6 @@ library(dplyr)
 library(rpart)
 install.packages("rpart.plot")
 library("rpart.plot")
-
 library(corrplot)
 install.packages('Rcpp')
 library(Hmisc)
@@ -21,17 +20,8 @@ port <- read.table(file="C:/Users/Jan/OneDrive/Dokumente/Studium/4_Semester/Data
 port <- read.table(file="C:/Temp/student-por.csv", sep = ",", header=TRUE)
 math <- read.table(file="C:/Temp/student-mat.csv", sep = ",", header=TRUE)
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-
-View(port)
-=======
-View(port)
->>>>>>> edcc2575d902b171f16b766d7eeace6a2470d22f
 
 
->>>>>>> be562cd120892ae6a6b1dc9305db5e4aef13f0be
 port$G_average <- (port$G1 + port$G2 + port$G3)/3
 port <- port %>% select(-G1,-G2,-G3)
 
@@ -297,26 +287,26 @@ ggplot(data = port) +
 ## Geometrische Objekte
 # Fehlzeiten abh von Alter
 ggplot(data = port) + 
-  geom_smooth(mapping = aes(x = age, y = G_average))
+  geom_smooth(mapping = aes(x = age, y = port$G_average))
 # Fehlzeiten abh von Alter, unterteilt in Geschlecht
 ggplot(data = port) + 
-  geom_smooth(mapping = aes(x = age, y = G_average, linetype = sex))
+  geom_smooth(mapping = aes(x = age, y = port$G_average, linetype = sex))
 #
 ggplot(data = port) +
   geom_smooth(
-    mapping = aes(x = age, y = G_average, color = sex),
+    mapping = aes(x = age, y = port$G_average, color = sex),
     show.legend = FALSE
   )
 #
 ggplot(data = port) + 
-  geom_point(mapping = aes(x = age, y = G_average)) +
-  geom_smooth(mapping = aes(x = age, y = G_average))
+  geom_point(mapping = aes(x = age, y = port$G_average)) +
+  geom_smooth(mapping = aes(x = age, y = port$G_average))
 #
-ggplot(data = port, mapping = aes(x = age, y = G_average)) + 
+ggplot(data = port, mapping = aes(x = age, y = absences)) + 
   geom_point(mapping = aes(color = sex)) + 
   geom_smooth()
 #
-ggplot(data = port, mapping = aes(x = age, y = G_average)) + 
+ggplot(data = port, mapping = aes(x = age, y = absences)) + 
   geom_point(mapping = aes(color = sex)) + 
   geom_smooth(data = filter(mpg, class == "subcompact"), se = FALSE)
 # Filter deklarieren
@@ -326,7 +316,7 @@ filter(x, filter, method = c("convolution", "recursive"),
 # Test
 bar <- ggplot(data = port) + 
   geom_bar(
-    mapping = aes(x = freetime, fill = G_average), 
+    mapping = aes(x = freetime, fill = absences), 
     show.legend = FALSE,
     width = 1)+ 
   theme(aspect.ratio = 1) +
@@ -334,31 +324,76 @@ bar <- ggplot(data = port) +
   
 bar + coord_flip()
 bar + coord_polar()
-################################################################################
-## Kontingenzkoeffizient
-install.packages("DescTools")
-libary(DescTools)
 
-tab <- table(port$sex, port$G_average)
-
-Assocs(tab)
-
-chisq.test(port$sex, port$G_average)
-chisq.test(port$freetime, port$G_average)
 ################################################################################
 ################################################################################
 
 
 
 ####################### treeee ################
+library(tree)
+
+
 n <- nrow(traindata)
 set.seed(42)
 trainingRows <- sample(n,0.8*n)
+testingRows <- -trainingRows
 
 TreeTrain    <- traindata[trainingRows,]
-TreeTest     <- traindata[-trainingRows,]
+TreeTest     <- traindata[testingRows,]
+
+#Baum auf Trainingsdaten
+tree_model = tree(G_average~.,TreeTrain)
+tree_model
+plot(tree_model)
+text(tree_model)
+
+#Test auf Testdaten
+# Trainingsfehler (MQA)
+mean( 
+  ( TreeTrain$G_average - predict(tree_model,newdata=TreeTrain) )^2
+)
+
+# Testfehler (MQA)
+mean( 
+  ( TreeTest$G_average - predict(tree_model,newdata=TreeTest) )^2
+)
 
 
+#Cross Validation
+cv_tree = cv.tree(tree_model)
+names(cv_tree)
+plot(cv_tree$size,
+     cv_tree$dev,
+     type = "b",
+     xlab = "Tree Size",
+     ylab = "MSE")
+
+which.min(cv_tree$dev)
+names(cv_tree)
+cv_tree$size[which.min(cv_tree$dev)]
+
+#Prune the Tree to size 2
+
+pruned_model <- prune.tree(tree_model, best = 2)
+plot(pruned_model)
+text(pruned_model)
+
+#check Pruned Model 
+
+# Trainingsfehler (MQA)
+mean( 
+  ( TreeTrain$G_average - predict(pruned_model,newdata=TreeTrain) )^2
+)
+
+# Testfehler (MQA)
+mean( 
+  ( TreeTest$G_average - predict(pruned_model,newdata=TreeTest) )^2
+)
+
+
+
+##alter Teil##
 tree.fit <- tree(
   formula = G_average ~ .,
   data    = traindata
@@ -430,7 +465,9 @@ cv.error <- cv.glm(
   K       = 10
 )
 
+
 cv.error
+cv.error$delta[1]
 
 lm.fit
 
