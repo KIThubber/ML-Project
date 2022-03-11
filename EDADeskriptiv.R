@@ -10,6 +10,7 @@ mean.mqa <- mean(
 )
 mean.mqa
 
+#hi
 
 #Correlationsmatrix
 cordata <- port %>% dplyr::select(where(is.numeric)) #Filtern der nummerischen Variablen
