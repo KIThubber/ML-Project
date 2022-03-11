@@ -8,6 +8,8 @@ library("rpart.plot")
 
 library(corrplot)
 install.packages('Rcpp')
+library(Hmisc)
+library(tidyverse)
 
 # Leon
 math <- read.table(file="C:/Users/Z00481XT/Desktop/archive/student-mat.csv", sep = ",", header=TRUE)
@@ -19,8 +21,14 @@ port <- read.table(file="C:/Users/Jan/OneDrive/Dokumente/Studium/4_Semester/Data
 port <- read.table(file="C:/Temp/student-por.csv", sep = ",", header=TRUE)
 math <- read.table(file="C:/Temp/student-mat.csv", sep = ",", header=TRUE)
 
+<<<<<<< HEAD
 
 View(port)
+=======
+View(port)
+
+
+>>>>>>> be562cd120892ae6a6b1dc9305db5e4aef13f0be
 port$G_average <- (port$G1 + port$G2 + port$G3)/3
 
 port <- port %>% select(-G1,-G2,-G3)
@@ -79,7 +87,7 @@ memory.limit(9999999)
 for (i in 1:maxdegree){
   
   glm.polynomial.fit[[i]] <- glm(   
-    formula = G_average ~ poly(school,guardian,studytime,failures,schoolsup,higher,romantic, degree=i, raw=TRUE),  
+    formula = formula,  
     data    = traindata
   )
   
@@ -109,13 +117,83 @@ lm.fit <- lm(
   data    = traindata
 )
 
-lm.fit
+
+
+summary(lm.fit)
+df.fit <- as.data.frame(lm.fit$coefficients)
+View(df.fit)
+summary(df.fit)
+
+sum.fit <- as.data.frame(summary(lm.fit)$coefficients)
+View(sum.fit)
+ttt <- sum.fit[order(sum.fit$Estimate),]
+ttt
+
+sort.int()hist(df.fit)
+
+
+mean(port$G_average[port$school=="MS"],)
+mean(port$G_average[port$school=="GP"],)
+
+hist(port$G_average[port$school=="MS"],)
+hist(port$G_average[port$school=="GP"],)
+
 
 train.mqa.lm <- mean(
   (testdata$G_average - predict(lm.fit, newdata=testdata))^2
 )
 
 train.mqa.lm
+
+#probieren
+wuerfel <- as.data.frame(c(c(400,500,600,1000,1200000,3000,233),c(1,2,3,4,5,6)))
+wuerfel <- scale(wuerfel)
+wuerfel
+
+mean(wuerfel)
+sd(wuerfel)
+mean((wuerfel-mean(wuerfel))^2)
+mean((wuerfel-mean(wuerfel)))^2
+
+1.87^2
+
+
+##scaling
+
+port_numeric <- port %>% dplyr::select(where(is.numeric))
+port_numeric <- scale(port_numeric)
+port_notnumeric <- port %>% dplyr::select_if(negate(is.numeric))
+
+
+port_scaled <- cbind(port_numeric, port_notnumeric)
+port_scaled <- as.data.frame(port_scaled)
+port_scaled$G_average <- port$G_average
+
+
+trainingsrows_scaled <- sample(nrow(port), nrow(port)*0.8)    # 80% der Gesamtdaten als Trainingsdaten
+traindata_scaled <- port_scaled[trainingsrows_scaled,]
+testdata_scaled <- port_scaled[-trainingsrows_scaled,]
+
+lm.fit <- lm( 
+  formula =  G_average ~ .,  
+  data    = traindata_scaled
+)
+
+train.mqa.lm <- mean(
+  (traindata_scaled$G_average - predict(lm.fit, newdata=traindata_scaled))^2
+)
+
+train.mqa.lm
+
+test.mqa.lm <- mean(
+  (testdata_scaled$G_average - predict(lm.fit, newdata=testdata_scaled))^2
+)
+
+test.mqa.lm
+
+summary(lm.fit)
+
+
 ###############
 
 lm.fit <- glm( 
