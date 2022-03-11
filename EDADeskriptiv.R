@@ -61,7 +61,6 @@ p+geom_vline(data=port_EDA, aes(xintercept=G_average_mean_school, color=school),
 
 
 
-
 #######EDA famsize
 
 table(port_EDA$famsize)
