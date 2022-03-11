@@ -117,18 +117,13 @@ View(port_EDA)
 
 table(port_EDA$age)
 
-port_EDA$G_average_mean_age[port$age=="15"] <- mean(port_EDA$G_average[port$age=="15"],)
-port_EDA$G_average_mean_age[port$age=="16"] <- mean(port_EDA$G_average[port$age=="16"],)
-port_EDA$G_average_mean_age[port$age=="17"] <- mean(port_EDA$G_average[port$age=="17"],)
-port_EDA$G_average_mean_age[port$age=="18"] <- mean(port_EDA$G_average[port$age=="18"],)
-port_EDA$G_average_mean_age[port$age>=19] <- mean(port_EDA$G_average[port$age>=19],)
-
-
  
+port_EDA$age <- as.character(port_EDA$age)
 p<-ggplot(port_EDA, aes(x=G_average, y=age)) +
   geom_violin(aes(fill=age, color=age),position="identity", alpha=0.8)+
   scale_x_continuous(breaks=c(2,4,6,8,10,12,14,16,18,20))+
-  geom_vline(data=port_EDA, aes(xintercept=G_average_mean_age, color=age),linetype="dashed")+
-  scale_y_continuous(breaks=c(15,16,17,18,19))
-
+  stat_summary(fun.data="mean_sdl",geom="crossbar", width=0.05 )
 p
+
+
+##
