@@ -16,15 +16,13 @@ port <- read.table(file="C:/Users/Z00481XT/Desktop/archive/student-por.csv", sep
 # Jan
 math <- read.table(file="C:/Users/Jan/OneDrive/Dokumente/Studium/4_Semester/Data Exploration/Datenset/student-mat.csv", sep = ",", header=TRUE)
 port <- read.table(file="C:/Users/Jan/OneDrive/Dokumente/Studium/4_Semester/Data Exploration/Datenset/student-por.csv", sep = ",", header=TRUE)
-
+# Yannick
 port <- read.table(file="C:/Temp/student-por.csv", sep = ",", header=TRUE)
 math <- read.table(file="C:/Temp/student-mat.csv", sep = ",", header=TRUE)
 
-View(port)
 
 
 port$G_average <- (port$G1 + port$G2 + port$G3)/3
-
 port <- port %>% select(-G1,-G2,-G3)
 
 
@@ -46,10 +44,10 @@ testdata <- port[-trainingsrows,]
 
 ##########deskriptive statistik
 
-summary(traindata$G_average)
-hist(traindata$G_average)
-sd(traindata$G_average)
-var(traindata$G_average)
+summary(port$G_average)
+hist(port$G_average)
+sd(port$G_average)
+var(port$G_average)
 
 mean.mqa <- mean(
   (testdata$G_average - mean(traindata$G_average))^2
@@ -63,6 +61,55 @@ corrplot(cordatamatrix, type = "upper", order = "hclust",
          tl.col = "black", tl.srt = 45)
 cor(cordata[-14], cordata$G_average)
 order(cork)
+
+
+
+#######G_Average gegen jede Zielvaraible Grafik
+port_EDA <- port
+
+########EDA Geschlecht
+table(port_EDA$sex)
+
+port_EDA$G_average_mean_sex[port$sex=="M"] <- mean(port_EDA$G_average[port$sex=="M"],)
+port_EDA$G_average_mean_sex[port$sex=="F"] <- mean(port_EDA$G_average[port$sex=="F"],)
+summary(port_EDA$G_average)
+
+p<-ggplot(port_EDA, aes(x=G_average, fill=sex, color=sex)) +
+  geom_histogram(aes(y=..density..),position="identity", alpha=0.3)+
+  scale_x_continuous(breaks=c(2,4,6,8,10,12,14,16,18,20))+
+  geom_density(alpha=0.2)+
+  geom_vline(data=port_EDA, aes(xintercept=G_average_mean_sex, color=sex),linetype="dashed")
+p
+
+###########EDA School
+table(port_EDA$school)
+port_EDA$G_average_mean_school[port$school=="GP"] <- mean(port_EDA$G_average[port$school=="GP"],)
+port_EDA$G_average_mean_school[port$school=="MS"] <- mean(port_EDA$G_average[port$school=="MS"],)
+
+p<-ggplot(port_EDA, aes(x=G_average, fill=school, color=school)) +
+  geom_histogram(aes(y=..density..),position="identity", alpha=0.4)+
+  geom_density(alpha=0.2)+
+  geom_vline(data=port_EDA, aes(xintercept=G_average_mean_school, color=school),linetype="dashed")+
+  scale_x_continuous(breaks=c(2,4,6,8,10,12,14,16,18,20))
+p
+
+table(port_EDA$age)
+port_EDA$G_average_mean_school[port$school=="GP"] <- mean(port_EDA$G_average[port$school=="GP"],)
+port_EDA$G_average_mean_school[port$school=="MS"] <- mean(port_EDA$G_average[port$school=="MS"],)
+
+p<-ggplot(port_EDA, aes(x=G_average, fill=age, color=age)) +
+  geom_histogram(position="identity", alpha=0.)
+p
+p+geom_vline(data=port_EDA, aes(xintercept=G_average_mean_school, color=school),
+             linetype="dashed")
+
+
+
+
+
+
+
+
 
 
 #############################
@@ -93,7 +140,6 @@ for (i in 1:maxdegree){
   
   cv.errors[[i]] <- cv.error$delta[1]  
 }
-plot(x=port$G_average, port$age, col="red")
 
 degree <- 1:maxdegree
 plot(x = degree, y = cv.errors)
@@ -112,25 +158,18 @@ lm.fit <- lm(
 )
 
 
+check <- summary(lm.fit)
 
-summary(lm.fit)
-df.fit <- as.data.frame(lm.fit$coefficients)
-View(df.fit)
-summary(df.fit)
+summary(lm.fit)$
+summary(lm.fit)$coefficients
+
 
 sum.fit <- as.data.frame(summary(lm.fit)$coefficients)
 View(sum.fit)
-ttt <- sum.fit[order(sum.fit$Estimate),]
-ttt
 
-sort.int()hist(df.fit)
+sum.fit.ordered <- sum.fit[order(abs(sum.fit$Estimate)),]
+sum.fit.ordered
 
-
-mean(port$G_average[port$school=="MS"],)
-mean(port$G_average[port$school=="GP"],)
-
-hist(port$G_average[port$school=="MS"],)
-hist(port$G_average[port$school=="GP"],)
 
 
 train.mqa.lm <- mean(
@@ -204,6 +243,7 @@ cv.error <- cv.glm(
   glmfit  = lm.fit,
   K       = 10
 )
+cv.error$
 
 cv.error$delta[1]
 #############################
