@@ -77,6 +77,13 @@ table(port_EDA$famsize)
 
 
 ######EDA Mjob
+data_summary <- function(x) {
+  m <- mean(x)
+  ymin <- m-sd(x)
+  ymax <- m+sd(x)
+  return(c(y=m,ymin=ymin,ymax=ymax))
+}
+
 table(port_EDA$Mjob)
 
 port_EDA$G_average_mean_Mjob[port$Mjob=="at_home"] <- mean(port_EDA$G_average[port$Mjob=="at_home"],)
@@ -85,15 +92,40 @@ port_EDA$G_average_mean_Mjob[port$Mjob=="other"] <- mean(port_EDA$G_average[port
 port_EDA$G_average_mean_Mjob[port$Mjob=="services"] <- mean(port_EDA$G_average[port$Mjob=="services"],)
 port_EDA$G_average_mean_Mjob[port$Mjob=="teacher"] <- mean(port_EDA$G_average[port$Mjob=="teacher"],)
 
-p<-ggplot(port_EDA, aes(x=G_average, fill=Mjob, color=Mjob)) +
-  geom_density(position="identity", alpha=0.2)+
-  geom_vline(data=port_EDA, aes(xintercept=G_average_mean_Mjob, color=Mjob),linetype="dashed")+
-  scale_x_continuous(breaks=c(2,4,6,8,10,12,14,16,18,20))
+p<-ggplot(port_EDA, aes(x=G_average, y=Mjob)) +
+  geom_violin(aes(fill=Mjob, color=Mjob),position="identity", alpha=0.8)+
+  scale_x_continuous(breaks=c(2,4,6,8,10,12,14,16,18,20))+
+  stat_summary(fun.data="mean_sdl",geom="crossbar", width=0.05 )
+
+
+
 p
 
 
-sum(table(port_EDA$Mjob))
+
+ sum(table(port_EDA$Mjob))
 
 
 ##### allle kategorialen variablen: school, sex, address, famsize, pstatus, medu, fedu, mjob, fjob, reson, guardian, schoolsup, famsup, paid, activities, nursey, higher, internet, romantic
 
+View(port_EDA)
+
+###############age
+
+table(port_EDA$age)
+
+port_EDA$G_average_mean_age[port$age=="15"] <- mean(port_EDA$G_average[port$age=="15"],)
+port_EDA$G_average_mean_age[port$age=="16"] <- mean(port_EDA$G_average[port$age=="16"],)
+port_EDA$G_average_mean_age[port$age=="17"] <- mean(port_EDA$G_average[port$age=="17"],)
+port_EDA$G_average_mean_age[port$age=="18"] <- mean(port_EDA$G_average[port$age=="18"],)
+port_EDA$G_average_mean_age[port$age>=19] <- mean(port_EDA$G_average[port$age>=19],)
+
+
+ 
+p<-ggplot(port_EDA, aes(x=G_average, y=age)) +
+  geom_violin(aes(fill=age, color=age),position="identity", alpha=0.8)+
+  scale_x_continuous(breaks=c(2,4,6,8,10,12,14,16,18,20))+
+  geom_vline(data=port_EDA, aes(xintercept=G_average_mean_age, color=age),linetype="dashed")+
+  scale_y_continuous(breaks=c(15,16,17,18,19))
+
+p
