@@ -22,6 +22,7 @@ corrplot(cordatamatrix, type = "upper", order = "hclust",
 #######G_Average gegen jede Zielvaraible Grafik######################################
 port_EDA <- port
 
+# nur 2 var
 ########EDA Geschlecht
 View(port_EDA)
 table(port_EDA$sex)
@@ -76,7 +77,7 @@ table(port_EDA$famsize)
 
 
 
-
+# template mehr als 2 var
 ######EDA Mjob
 table(port_EDA$Mjob)
 
