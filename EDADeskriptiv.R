@@ -12,7 +12,7 @@ mean.mqa
 
 #hi
 
-#Correlationsmatrix
+#Korrelationsmatrix
 cordata <- port %>% dplyr::select(where(is.numeric)) #Filtern der nummerischen Variablen
 cordatamatrix <- cor(cordata)#Erstellen einer Korrelationsmatrix
 corrplot(cordatamatrix, type = "upper", order = "hclust", 
@@ -23,11 +23,12 @@ corrplot(cordatamatrix, type = "upper", order = "hclust",
 port_EDA <- port
 
 ########EDA Geschlecht
+View(port_EDA)
 table(port_EDA$sex)
 
 port_EDA$G_average_mean_sex[port$sex=="M"] <- mean(port_EDA$G_average[port$sex=="M"],)
 port_EDA$G_average_mean_sex[port$sex=="F"] <- mean(port_EDA$G_average[port$sex=="F"],)
-View(port_EDA)
+
 
 p<-ggplot(port_EDA, aes(x=G_average, fill=sex, color=sex)) +
   geom_histogram(aes(y=..density..),position="identity", alpha=0.3)+
