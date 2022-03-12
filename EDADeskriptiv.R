@@ -99,7 +99,7 @@ View(port_EDA)
 
 ###############age
 
-
+#Wenig datenpunkte bei age 21 und 22, nur jew 1 und 2 Personen
 table(port_EDA$age)
 
  
