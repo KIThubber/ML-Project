@@ -119,6 +119,7 @@ port_EDA$age <- as.character(port_EDA$age)
 p<-ggplot(port_EDA[port_EDA$age<=19,], aes(x=G_average, y=age)) +
   geom_violin(aes(fill=age, color=age),position="identity", alpha=0.8)+
   scale_x_continuous(breaks=c(2,4,6,8,10,12,14,16,18,20))+
+  ylim(NA,20)+
   stat_summary(fun.data="mean_sdl",geom="crossbar", width=0.05 )
 p
 
