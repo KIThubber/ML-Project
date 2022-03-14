@@ -333,7 +333,7 @@ bar + coord_polar()
 ####################### treeee ################
 library(tree)
 
-
+set.seed(42)
 trainingsrows <- sample(nrow(port), nrow(port)*0.8)    # 80% der Gesamtdaten als Trainingsdaten
 TreeTrain <- port[trainingsrows,]
 TreeTest <- port[-trainingsrows,]
@@ -355,7 +355,6 @@ mean(
   ( TreeTest$G_average - predict(tree_model,newdata=TreeTest) )^2
 )
 
-
 #Cross Validation
 cv_tree = cv.tree(tree_model)
 names(cv_tree)
@@ -371,7 +370,7 @@ cv_tree$size[which.min(cv_tree$dev)]
 
 #Prune the Tree to size 4
 
-pruned_model <- prune.tree(tree_model, best = 4)
+pruned_model <- prune.tree(tree_model, best = 3)
 plot(pruned_model)
 text(pruned_model)
 
