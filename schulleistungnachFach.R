@@ -334,13 +334,9 @@ bar + coord_polar()
 library(tree)
 
 
-n <- nrow(traindata)
-set.seed(42)
-trainingRows <- sample(n,0.8*n)
-testingRows <- -trainingRows
-
-TreeTrain    <- traindata[trainingRows,]
-TreeTest     <- traindata[testingRows,]
+trainingsrows <- sample(nrow(port), nrow(port)*0.8)    # 80% der Gesamtdaten als Trainingsdaten
+TreeTrain <- port[trainingsrows,]
+TreeTest <- port[-trainingsrows,]
 
 #Baum auf Trainingsdaten
 tree_model = tree(G_average~.,TreeTrain)
@@ -373,9 +369,9 @@ which.min(cv_tree$dev)
 names(cv_tree)
 cv_tree$size[which.min(cv_tree$dev)]
 
-#Prune the Tree to size 2
+#Prune the Tree to size 4
 
-pruned_model <- prune.tree(tree_model, best = 2)
+pruned_model <- prune.tree(tree_model, best = 4)
 plot(pruned_model)
 text(pruned_model)
 
