@@ -33,7 +33,7 @@ mean(
   ( testdata$G_average - testdata$pred)^2
 )
 
-default.model_pruned <- prune(default.model, cp = 0.0124796)
+default.model_pruned <- prune(default.model, cp = 0.0157505)
 plot(default.model_pruned)
 text(default.model_pruned)
 
