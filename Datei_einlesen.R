@@ -25,7 +25,6 @@ testdata <- port[-trainingsrows,]
 #Aufteilung in Trainings und Testdaten 50%
 set.seed(42) # Zufallsparameter auf 42
 
-
 trainingsrows <- sample(nrow(port), nrow(port)*0.5)    # 80% der Gesamtdaten als Trainingsdaten
 traindata <- port[trainingsrows,]
 testdata <- port[-trainingsrows,]

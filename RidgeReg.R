@@ -1,6 +1,6 @@
 ##Ridge Regression
 
-lambda <- 10^seq( from = 5, to = -5, length = 100) #Fallende Folge! vgl. ?glmnet
+lambda <- 10^seq( from = 3, to = -3, length = 100) #Fallende Folge! vgl. ?glmnet
 
 ridge.cv.out <- cv.glmnet(
   x     = X.train,

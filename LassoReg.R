@@ -1,4 +1,5 @@
 #Lasso Reg
+lambda <- 10^seq( from = 3, to = -3, length = 100) #Fallende Folge! vgl. ?glmnet
 
 lasso.cv.out <- cv.glmnet(
   x     = X.train,
@@ -40,4 +41,10 @@ lasso.prediction.test <- predict(
 mqa.lasso.test <- mean( (lasso.prediction.test - y.test)^2 )
 mqa.lasso.test
 
-summary(lasso.fit)
+
+sum.fit <- coef(lasso.fit)
+typeof(sum.fit)
+sum.fit.ordered <- sum.fit[order(abs(sum.fit$s0)),]
+sum.fit.ordered
+
+

@@ -1,0 +1,335 @@
+[33mcommit 37b5f01433ecdb42912bb5a57c2620bc60d355df[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Merge: 1be7ead 5f8b6cf
+Author: Z00481XT <leon.debatin@siemens.com>
+Date:   Sat Mar 12 10:13:02 2022 +0100
+
+    Merge branch 'master' of https://github.com/KIThubber/ML-Project
+
+[33mcommit 1be7eadd202f422ea969fb08b41d64f4edd3cb9d[m
+Author: Z00481XT <leon.debatin@siemens.com>
+Date:   Sat Mar 12 10:12:59 2022 +0100
+
+    age
+
+[33mcommit 5f8b6cf693e1a7edcca1429605fe568095a89149[m
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Sat Mar 12 10:12:34 2022 +0100
+
+    neuer commit
+
+[33mcommit 1b0f239521d52ddcd513cf6611b40baf6296b55d[m
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Sat Mar 12 10:02:38 2022 +0100
+
+    update ggplot
+
+[33mcommit 9894f478db7e149fefa203c12a9761b335799a21[m
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Sat Mar 12 08:51:20 2022 +0100
+
+    Violin Plots für die Variablen
+
+[33mcommit 1ded9c4ff8a404b6649390ca7c84c813fdd183ae[m
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Sat Mar 12 00:32:59 2022 +0100
+
+    blubbber
+
+[33mcommit 867e0b05021edcdb127491f5f01356fd7e60b0ad[m
+Merge: 5b51c32 085a1b5
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Sat Mar 12 00:30:41 2022 +0100
+
+    Merge branch 'master' of https://github.com/KIThubber/ML-Project
+
+[33mcommit 5b51c32213f98b62646fd1efea2f93d8f755db85[m
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Sat Mar 12 00:30:39 2022 +0100
+
+    cxvxcv
+
+[33mcommit 085a1b5db09426fe1f5b2305db8f64453356dc5b[m
+Author: Z00481XT <leon.debatin@siemens.com>
+Date:   Sat Mar 12 00:26:05 2022 +0100
+
+    nummerische werte einfach in categoriale umwandeln für EDA -> smart
+
+[33mcommit 361c150a261e56c91f826d6bbdb6e8515a0db51b[m
+Merge: 071fb86 46a31c4
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Fri Mar 11 22:31:00 2022 +0100
+
+    Merge branch 'master' of https://github.com/KIThubber/ML-Project
+
+[33mcommit 071fb86dd65ad5da551e08922625412014554989[m
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Fri Mar 11 22:30:57 2022 +0100
+
+    blubb
+
+[33mcommit 46a31c40dbd6af5756d6171c80ef3029c547eb0e[m
+Author: Z00481XT <leon.debatin@siemens.com>
+Date:   Fri Mar 11 22:08:29 2022 +0100
+
+    violin bei mjob
+    age suckt immer noch
+
+[33mcommit d601337f0a932bc631269ed6d73b6e5946a1bb23[m
+Merge: bb6a944 059b5cf
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Fri Mar 11 18:05:59 2022 +0100
+
+    Merge branch 'master' of https://github.com/KIThubber/ML-Project
+
+[33mcommit bb6a944c3fb25b36cb084dacb96e152b7d6a8e2f[m
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Fri Mar 11 18:05:56 2022 +0100
+
+    test
+
+[33mcommit 059b5cf15eb4645bdd15cf61fb21361ad5e34792[m
+Author: Z00481XT <leon.debatin@siemens.com>
+Date:   Fri Mar 11 18:05:29 2022 +0100
+
+    EDA
+
+[33mcommit 0c365003a76c946ffceee4e04ebf8f052d2ee00a[m
+Merge: 5953c1f 9bf721e
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Fri Mar 11 17:36:42 2022 +0100
+
+    Merge branch 'master' of https://github.com/KIThubber/ML-Project
+
+[33mcommit 5953c1f961b3cda3a9f05e418b1fbbd69f4933bb[m
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Fri Mar 11 17:36:39 2022 +0100
+
+    tsts
+
+[33mcommit 9bf721ec6acb447a0e6777567dd859f2bb2c28d6[m
+Author: Z00481XT <leon.debatin@siemens.com>
+Date:   Fri Mar 11 17:35:43 2022 +0100
+
+    sdfsdfsdfsdf
+
+[33mcommit 16ff5616704333e2979e85a66bd8498a7970544b[m
+Author: Z00481XT <leon.debatin@siemens.com>
+Date:   Fri Mar 11 17:32:45 2022 +0100
+
+    synchro
+
+[33mcommit 331a7700d4c06ce218f94e62b9375d3cc0631f79[m
+Merge: 46296bc edcc257
+Author: Z00481XT <leon.debatin@siemens.com>
+Date:   Fri Mar 11 17:32:26 2022 +0100
+
+    Merge branch 'master' of https://github.com/KIThubber/ML-Project
+    
+    # Conflicts:
+    #       schulleistungnachFach.R
+
+[33mcommit 46296bcbaf092beb7066d213dd8aefc08e061df8[m
+Author: Z00481XT <leon.debatin@siemens.com>
+Date:   Fri Mar 11 17:27:22 2022 +0100
+
+    aufteilung in unterdatieien
+
+[33mcommit edcc2575d902b171f16b766d7eeace6a2470d22f[m
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Fri Mar 11 17:25:22 2022 +0100
+
+    sktjskldnmfjklsdfs
+
+[33mcommit 9b5a639b382ae5d00632c3b806225200642003fc[m
+Merge: 55a4a15 be562cd
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Fri Mar 11 17:24:07 2022 +0100
+
+    sdfsdfsdf
+    
+    Merge branch 'master' of https://github.com/KIThubber/ML-Project
+    
+    # Conflicts:
+    #       schulleistungnachFach.R
+
+[33mcommit 55a4a15bb99bd7891f552238c35d5a4eb9eaa5df[m
+Merge: 29d9da5 666ee01
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Fri Mar 11 17:22:45 2022 +0100
+
+    test
+    
+    Merge branch 'master' of https://github.com/KIThubber/ML-Project
+    
+    # Conflicts:
+    #       schulleistungnachFach.R
+
+[33mcommit be562cd120892ae6a6b1dc9305db5e4aef13f0be[m
+Merge: b3a30b9 666ee01
+Author: Z00481XT <leon.debatin@siemens.com>
+Date:   Thu Mar 10 23:05:03 2022 +0100
+
+    Merge branch 'master' of https://github.com/KIThubber/ML-Project
+
+[33mcommit b3a30b9e823e368c394f278cda3854f94177d1fe[m
+Author: Z00481XT <leon.debatin@siemens.com>
+Date:   Thu Mar 10 23:04:38 2022 +0100
+
+    Scaled
+
+[33mcommit 666ee012a81b7ee659272db1561efe5abe6fa140[m
+Author: Yannick Lindenfelser <yannick.lindenfelser@gmail.com>
+Date:   Thu Mar 3 11:25:23 2022 +0100
+
+    Änderung
+
+[33mcommit 29d9da5c4bf2f5787a26df242de0978f473f69ce[m
+Merge: e82a084 4a6542e
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Thu Mar 3 10:44:28 2022 +0100
+
+    Merge branch 'master' of https://github.com/KIThubber/ML-Project
+
+[33mcommit 4a6542e3ec848d019d650ebdf18488a0f141d3d3[m
+Author: Yannick Lindenfelser <yannick.lindenfelser@gmail.com>
+Date:   Thu Mar 3 10:44:12 2022 +0100
+
+    Neuste
+
+[33mcommit e82a0842e0fec9490ad2a28dbb3a058372137e49[m
+Merge: 6b09b4d c1e541b
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Thu Mar 3 10:42:03 2022 +0100
+
+    rterte
+    
+    Merge branch 'master' of https://github.com/KIThubber/ML-Project
+    
+    # Conflicts:
+    #       schulleistungnachFach.R
+
+[33mcommit 6b09b4d9b41caeb485115853edd09e06531b32ab[m
+Merge: 20816e0 25edfab
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Thu Mar 3 10:38:50 2022 +0100
+
+    Merge branch 'master' of https://github.com/KIThubber/ML-Project
+    
+    # Conflicts:
+    #       schulleistungnachFach.R
+
+[33mcommit c1e541bc915e9e726e8ed160f6cf4e0b912f8624[m
+Merge: 2b25fb9 25edfab
+Author: Yannick Lindenfelser <yannick.lindenfelser@gmail.com>
+Date:   Thu Mar 3 10:28:38 2022 +0100
+
+    Test
+    
+    Merge branch 'master' of https://github.com/KIThubber/ML-Project
+    
+    # Conflicts:
+    #       schulleistungnachFach.R
+
+[33mcommit 20816e0abc23c41a68052503c8f95fd9af456cd9[m
+Merge: 9731eff cf6cf1a
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Mon Feb 28 11:54:02 2022 +0100
+
+    Merge branch 'master' of https://github.com/KIThubber/ML-Project
+    
+    # Jan
+
+[33mcommit 2b25fb9958591b0a35e6b39b6f55417e77f1b695[m
+Author: Yannick Lindenfelser <yannick.lindenfelser@gmail.com>
+Date:   Thu Mar 3 10:19:19 2022 +0100
+
+    Neu Yannick
+
+[33mcommit 25edfab901143bab9f1c9c0fb970b04d26a88b7a[m
+Author: Z00481XT <leon.debatin@siemens.com>
+Date:   Thu Mar 3 10:04:43 2022 +0100
+
+    kl
+
+[33mcommit 7c0ee02d9153aa2a7fa544bd2030828e3cd71f4a[m
+Author: Yannick Lindenfelser <yannick.lindenfelser@gmail.com>
+Date:   Thu Mar 3 09:59:53 2022 +0100
+
+    Commit 2
+
+[33mcommit b8e681be9d323070bc1a19ae1a1b66ed2eb166b7[m
+Author: Yannick Lindenfelser <yannick.lindenfelser@gmail.com>
+Date:   Thu Mar 3 09:58:30 2022 +0100
+
+    Neuer Baum
+
+[33mcommit ef1fbb5f27bd7e87e301587447caabd418ee60e4[m
+Merge: 9731eff cf6cf1a
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Mon Feb 28 11:54:02 2022 +0100
+
+    Merge branch 'master' of https://github.com/KIThubber/ML-Project
+
+[33mcommit 9731eff027df32b4202362c4cb4b775edf6a4ce2[m
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Mon Feb 28 11:53:50 2022 +0100
+
+    Test Jan1
+
+[33mcommit cf62353b5207a87fd290aa98d4a7a7d3619a8126[m
+Author: JanHausdorf <lastf0rc3@gmail.com>
+Date:   Mon Feb 28 11:52:51 2022 +0100
+
+    Test Jan
+
+[33mcommit cf6cf1a30213761bcd2e6f593e6c054b0027ec45[m
+Merge: 9ebfe35 5d88b56
+Author: Yannick Lindenfelser <yannick.lindenfelser@gmail.com>
+Date:   Mon Feb 28 11:42:42 2022 +0100
+
+    Merge branch 'master' of https://github.com/KIThubber/ML-Project
+    
+    # Conflicts:
+    #       schulleistungnachFach.R
+
+[33mcommit 9ebfe35df83b70a09916e3f1587e138413a1a8a7[m
+Author: Yannick Lindenfelser <yannick.lindenfelser@gmail.com>
+Date:   Mon Feb 28 11:40:26 2022 +0100
+
+    Hi
+
+[33mcommit 5d88b560a9dec7bd6058b6f1b2e72085205049b6[m
+Author: Z00481XT <leon.debatin@siemens.com>
+Date:   Mon Feb 28 11:38:29 2022 +0100
+
+    ilgukhj
+
+[33mcommit 6ef64a17d6ab0b3f4b9363012c372ff0378ef1d7[m
+Author: Z00481XT <leon.debatin@siemens.com>
+Date:   Mon Feb 21 14:54:19 2022 +0100
+
+    lasso un reg
+
+[33mcommit 01e8a5119a0421349ab589228274f6da0e4925f2[m
+Author: Z00481XT <leon.debatin@siemens.com>
+Date:   Mon Feb 21 11:40:40 2022 +0100
+
+    aufteilung
+
+[33mcommit 5d33a597eae4139636f4dba546216a0ec0368f63[m
+Author: Z00481XT <leon.debatin@siemens.com>
+Date:   Mon Feb 21 11:02:45 2022 +0100
+
+    test
+
+[33mcommit 2ef6a82a43107827c99d57f61c09c519f27d0b81[m
+Author: Z00481XT <leon.debatin@siemens.com>
+Date:   Mon Feb 21 00:12:06 2022 +0100
+
+    go
+
+[33mcommit b2d62effee514b302d052182e6a0c257d0a0f48f[m
+Author: Z00481XT <leon.debatin@siemens.com>
+Date:   Wed Feb 16 10:48:49 2022 +0100
+
+    YOOOO

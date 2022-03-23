@@ -42,6 +42,15 @@ testdata <- port[-trainingsrows,]
 
 
 
+
+set.seed(11)
+
+sample(1:10)
+
+set.seed(10)
+sample(1:10)
+
+
 ##########deskriptive statistik
 
 summary(port$G_average)
@@ -51,6 +60,14 @@ var(port$G_average)
 
 mean.mqa <- mean(
   (testdata$G_average - mean(traindata$G_average))^2
+)
+mean.mqa
+
+median(testdata$G_average)
+mean(testdata$G_average)
+
+mean.mqa <- mean(
+  (testdata$G_average - median(traindata$G_average))^2
 )
 mean.mqa
 
@@ -338,11 +355,13 @@ trainingsrows <- sample(nrow(port), nrow(port)*0.8)    # 80% der Gesamtdaten als
 TreeTrain <- port[trainingsrows,]
 TreeTest <- port[-trainingsrows,]
 
+
 #Baum auf Trainingsdaten
 tree_model = tree(G_average~.,TreeTrain)
 tree_model
 plot(tree_model)
 text(tree_model)
+
 
 #Test auf Testdaten
 # Trainingsfehler (MQA)
@@ -397,8 +416,13 @@ summary(tree.fit)
 plot(tree.fit)
 text(tree.fit)
 
+
+
+
+
+
 default.model <- rpart(formula = G_average ~ ., data = traindata, method="anova",control=rpart.control(minsplit=60, cp=0.001))
-cv.Alk <- cv.tree(overfit.model)
+cv.Alk <- cv.tree(default.model)
 plot(
   x    = cv.Alk$size,
   y    = cv.Alk$dev,

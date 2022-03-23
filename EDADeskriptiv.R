@@ -14,6 +14,7 @@ mean.mqa
 
 #Korrelationsmatrix
 cordata <- port %>% dplyr::select(where(is.numeric)) #Filtern der nummerischen Variablen
+
 cordatamatrix <- cor(cordata)#Erstellen einer Korrelationsmatrix
 corrplot(cordatamatrix, type = "upper", order = "hclust", 
          tl.col = "black", tl.srt = 45)

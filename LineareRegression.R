@@ -33,14 +33,14 @@ test.mqa.lm
 
 
 #####cross validation
+
+
 cv.error <- cv.glm(
   data    = traindata,
   glmfit  = lm.fit,
   K       = 10
 )
 
-
-cv.error
 cv.error$delta[1]
 
 

@@ -1,19 +1,23 @@
 ######polynominale Regression
-axdegree <- 3
+set.seed(42)
+maxdegree <- 2
 cv.errors          <- rep(0,maxdegree)
 glm.polynomial.fit <- vector(mode="list", length=8)
 
 
 colnames <- toString(colnames(port))
 formula <- paste('G_average ~ poly(', colnames, ',degree=i, raw=TRUE)')
+formula
 
 memory.limit(9999999)
 
+nummerischecolnames <- paste(toString(colnames(cordata)))
+nummerischecolnames
 
 for (i in 1:maxdegree){
   
   glm.polynomial.fit[[i]] <- glm(   
-    formula = formula,  
+    formula = G_average ~ poly(age,failures,traveltime,Medu,Fedu,studytime,famrel,freetime,absences, degree=i, raw=TRUE),  
     data    = traindata
   )
   
@@ -30,3 +34,6 @@ plot(x=port$G_average, port$age, col="red")
 degree <- 1:maxdegree
 plot(x = degree, y = cv.errors)
 lines(x = degree, y = cv.errors)
+
+View(port)
+
