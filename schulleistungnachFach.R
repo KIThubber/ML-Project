@@ -348,6 +348,105 @@ bar + coord_polar()
 
 
 ####################### treeee ################
+default.model <- rpart(formula = G_average ~ ., data = traindata, method="anova",control=rpart.control(cp=0))
+summary(default.model)
+plot(default.model)
+text(default.model)
+
+printcp(default.model)
+plotcp(default.model)
+
+
+
+traindata$pred <- predict(default.model, traindata)
+testdata$pred <- predict(default.model, testdata)
+
+mean( 
+  ( traindata$G_average - traindata$pred)^2
+)
+mean( 
+  ( testdata$G_average - testdata$pred)^2
+)
+
+default.model_pruned <- prune(default.model, cp = 0.0157505)
+plot(default.model_pruned)
+text(default.model_pruned)
+
+traindata$pred <- predict(default.model_pruned, traindata)
+testdata$pred <- predict(default.model_pruned, testdata)
+
+mean( 
+  ( traindata$G_average - traindata$pred)^2
+)
+mean( 
+  ( testdata$G_average - testdata$pred)^2
+)
+
+predict(default.model_pruned,newdata=traindata)
+
+
+printcp(default.model_pruned)
+plotcp(default.model_pruned)
+
+testdata$pred <- predict(default.model_pruned, testdata, type = "class")
+prune_accuracy <- mean(testdata$pred == testdata$G_average)
+prune_accuracy
+
+data.frame(base_accuracy, prune_accuracy)
+
+
+
+model_preprun <- rpart(G_average ~ ., data = traindata, method = "class", 
+                          control = rpart.control(cp = 0, maxdepth = 8,minsplit = 100))
+plot(model_preprun)
+text(model_preprun)
+
+testdata$pred <- predict(model_preprun, testdata, type = "class")
+base_accuracy <- mean(testdata$pred == testdata$G_average)
+base_accuracy
+
+overfit.model <- rpart(G_average ~ ., data = traindata,
+                       maxdepth= 7, minsplit=2,
+                       minbucket = 20)
+
+
+cv.Alk <- cv.tree(default.model)
+plot(
+  x    = cv.Alk$size,
+  y    = cv.Alk$dev,
+  type = "b"
+)
+cv.Alk
+pruned.tree <- prune.tree(
+  tree = tree.fit,
+  best = 3
+)
+
+plot(pruned.tree)
+text(pruned.tree)
+rpart.plot(overfit.model)
+printcp(overfit.model)
+summary(overfit.model)
+plot(overfit.model)
+text(overfit.model)
+# printcp(fit)
+# fit$cptable[which.min(fit$cptable[,"xerror"]),"CP"]
+# prune(fit, cp= 1 )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 library(tree)
 
 set.seed(42)
@@ -416,6 +515,7 @@ summary(tree.fit)
 plot(tree.fit)
 text(tree.fit)
 
+<<<<<<< HEAD
 
 
 
@@ -437,6 +537,8 @@ pruned.tree <- prune.tree(
 plot(pruned.tree)
 text(pruned.tree)
 
+=======
+>>>>>>> d533cb68eadd7d2f5306082b8d88445c0308730c
 
 # Trainingsfehler (MQA)
 mean( 
@@ -448,17 +550,8 @@ mean(
   ( TreeTest$G_average - predict(pruned.tree,newdata=TreeTest) )^2
 )
 
-overfit.model <- rpart(G_average ~ ., data = traindata,
-                       maxdepth= 7, minsplit=2,
-                       minbucket = 20)
-rpart.plot(overfit.model)
-printcp(overfit.model)
-summary(overfit.model)
-plot(overfit.model)
-text(overfit.model)
-# printcp(fit)
-# fit$cptable[which.min(fit$cptable[,"xerror"]),"CP"]
-# prune(fit, cp= 1 )
+
+
 #########################
 
 
