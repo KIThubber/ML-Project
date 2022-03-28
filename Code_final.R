@@ -56,6 +56,13 @@ testdata <- port[-trainingsrows,]
 
 
 
+
+#Durchschnittsnote
+port$G_average <- (port$G1 + port$G2 + port$G3)/3 #Die 3 Teilnoten werden in eine Durchschnittsnote überführt
+port <- port %>% select(-G1,-G2,-G3) # Die 3 Teilnoten werden aus dem Datensatz entfernt
+
+
+
 #Explorative Datenanalyse
 
 sum(is.na(port)) #keine NAs, sehr gnädiger Datensatz hinsichtlich der Datenaufbereinigung
@@ -65,8 +72,6 @@ sd(port$G_average)
 var(port$G_average)
 
 
-port$G_average <- (port$G1 + port$G2 + port$G3)/3 #Die 3 Teilnoten werden in eine Durchschnittsnote überführt
-port <- port %>% select(-G1,-G2,-G3) # Die 3 Teilnoten werden aus dem Datensatz entfernt
 
 port_EDA <- port #Anlegen eines extra Datensatzes, an dem Anpassungen für die EDA durchgeführt werden können
 View(port_EDA)
@@ -91,7 +96,6 @@ p<-ggplot(port_EDA, aes(x=G_average, fill=school, color=school)) +
 p
 
 #sex
-View(port_EDA)
 table(port_EDA$sex)
 
 port_EDA$G_average_mean_sex[port$sex=="M"] <- mean(port_EDA$G_average[port$sex=="M"],)
@@ -156,11 +160,6 @@ p
 #Medu
 table(port_EDA$Medu)
 
-port_EDA$G_average_mean_Medu[port$Medu=="0"] <- mean(port_EDA$G_average[port$Medu=="0"],)
-port_EDA$G_average_mean_Medu[port$Medu=="1"] <- mean(port_EDA$G_average[port$Medu=="1"],)
-port_EDA$G_average_mean_Medu[port$Medu=="2"] <- mean(port_EDA$G_average[port$Medu=="2"],)
-port_EDA$G_average_mean_Medu[port$Medu=="3"] <- mean(port_EDA$G_average[port$Medu=="3"],)
-port_EDA$G_average_mean_Medu[port$Medu=="4"] <- mean(port_EDA$G_average[port$Medu=="4"],)
 
 port_EDA$Medu <- as.character(port_EDA$Medu)
 p<-ggplot(port_EDA, aes(x=G_average, y=Medu)) +
@@ -172,11 +171,6 @@ p
 #fedu
 table(port_EDA$Fedu)
 
-port_EDA$G_average_mean_Fedu[port$Fedu=="0"] <- mean(port_EDA$G_average[port$Fedu=="0"],)
-port_EDA$G_average_mean_Fedu[port$Fedu=="1"] <- mean(port_EDA$G_average[port$Fedu=="1"],)
-port_EDA$G_average_mean_Fedu[port$Fedu=="2"] <- mean(port_EDA$G_average[port$Fedu=="2"],)
-port_EDA$G_average_mean_Fedu[port$Fedu=="3"] <- mean(port_EDA$G_average[port$Fedu=="3"],)
-port_EDA$G_average_mean_Fedu[port$Fedu=="4"] <- mean(port_EDA$G_average[port$Fedu=="4"],)
 
 port_EDA$Fedu <- as.character(port_EDA$Fedu)
 p<-ggplot(port_EDA, aes(x=G_average, y=Fedu)) +
@@ -186,11 +180,6 @@ p<-ggplot(port_EDA, aes(x=G_average, y=Fedu)) +
 p
 
 #Mjob
-port_EDA$G_average_mean_Mjob[port$Mjob=="at_home"] <- mean(port_EDA$G_average[port$Mjob=="at_home"],)
-port_EDA$G_average_mean_Mjob[port$Mjob=="health"] <- mean(port_EDA$G_average[port$Mjob=="health"],)
-port_EDA$G_average_mean_Mjob[port$Mjob=="other"] <- mean(port_EDA$G_average[port$Mjob=="other"],)
-port_EDA$G_average_mean_Mjob[port$Mjob=="services"] <- mean(port_EDA$G_average[port$Mjob=="services"],)
-port_EDA$G_average_mean_Mjob[port$Mjob=="teacher"] <- mean(port_EDA$G_average[port$Mjob=="teacher"],)
 
 p<-ggplot(port_EDA, aes(x=G_average, y=Mjob)) +
   geom_violin(aes(fill=Mjob, color=Mjob),position="identity", alpha=0.8)+
@@ -201,12 +190,6 @@ p
 #Fjob
 
 table(port_EDA$Fjob)
-
-port_EDA$G_average_mean_Fjob[port$Fjob=="at_home"] <- mean(port_EDA$G_average[port$Fjob=="at_home"],)
-port_EDA$G_average_mean_Fjob[port$Fjob=="health"] <- mean(port_EDA$G_average[port$Fjob=="health"],)
-port_EDA$G_average_mean_Fjob[port$Fjob=="other"] <- mean(port_EDA$G_average[port$Fjob=="other"],)
-port_EDA$G_average_mean_Fjob[port$Fjob=="services"] <- mean(port_EDA$G_average[port$Fjob=="services"],)
-port_EDA$G_average_mean_Fjob[port$Fjob=="teacher"] <- mean(port_EDA$G_average[port$Fjob=="teacher"],)
 
 p<-ggplot(port_EDA, aes(x=G_average, y=Fjob)) +
   geom_violin(aes(fill=Fjob, color=Fjob),position="identity", alpha=0.8)+
@@ -696,6 +679,7 @@ test.mqa.lm
 
 
 #Regression Tree
+
 #Wieder normaler Datensatz ohne Dummies
 traindata <- port[trainingsrows,]
 testdata <- port[-trainingsrows,]
