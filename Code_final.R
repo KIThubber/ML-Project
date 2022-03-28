@@ -702,7 +702,7 @@ testdata <- port[-trainingsrows,]
 
 default.model <- rpart(formula = G_average ~ ., data = traindata, method="anova",control=rpart.control(cp=0))
 summary(default.model)
-plot(default.model)
+rpart.plot(default.model)
 text(default.model)
 
 printcp(default.model)
@@ -721,7 +721,7 @@ mean(
 )
 
 default.model_pruned <- prune(default.model, cp = 0.0157505)
-plot(default.model_pruned)
+rpart.plot(default.model_pruned)
 text(default.model_pruned)
 
 traindata$pred <- predict(default.model_pruned, traindata)
