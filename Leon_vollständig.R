@@ -45,7 +45,9 @@ sum.fit <- as.data.frame(summary(lm.fit)$coefficients)
 sum.fit.ordered <- sum.fit[order(abs(sum.fit$Estimate)),]
 sum.fit.ordered
 
-#Trainingsfehler
+#Trainingsfehler: seed 12   4,985
+#                 seed 41   
+#                 seed 100  
 train.mqa.lm <- mean(
   (traindata$G_average - predict(lm.fit, newdata=traindata))^2
 )
@@ -53,7 +55,9 @@ train.mqa.lm <- mean(
 train.mqa.lm
 
 
-#Testfehler
+#Testfehler: seed 12    5,309
+#            seed 42    
+#            seed 100   
 test.mqa.lm <- mean(
   (testdata$G_average - predict(lm.fit, newdata=testdata))^2
 )

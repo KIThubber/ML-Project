@@ -147,6 +147,7 @@ data_summary <- function(x) {
   ymax <- m+sd(x)
   return(c(y=m,ymin=ymin,ymax=ymax))
 }
+data_summary
 
 table(port_EDA$Mjob)
 
@@ -477,9 +478,10 @@ p
 table(port_EDA$absences)
 
 
-port_EDA$absences <- as.character(port_EDA$absences)
-p<-ggplot(port_EDA[port_EDA$absences<=5,], aes(x=G_average, y=absences)) +
-  geom_violin(aes(fill=absences, color=absences),position="identity", alpha=0.8)+
-  scale_x_continuous(breaks=c())+
-  stat_summary(fun.data="mean_sdl",geom="crossbar", width=0.05 )
-p
+port_EDA$G_average
+port_EDA$G_average[port_EDA$absences]
+
+ggplot(port_EDA, aes(x=absences , y=G_average/))+
+  geom_bar(stat="identity")
+
+

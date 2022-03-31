@@ -110,6 +110,7 @@ p
 
 #age
 table(port_EDA$age)
+plot(port_EDA$age,port_EDA$G_average)
 
 port_EDA$age <- as.character(port_EDA$age)
 p<-ggplot(port_EDA[port_EDA$age<=19,], aes(x=G_average, y=age)) +
@@ -181,6 +182,7 @@ p
 
 #Mjob
 
+table(port_EDA$Fjob)
 p<-ggplot(port_EDA, aes(x=G_average, y=Mjob)) +
   geom_violin(aes(fill=Mjob, color=Mjob),position="identity", alpha=0.8)+
   scale_x_continuous(breaks=c(2,4,6,8,10,12,14,16,18,20))+
@@ -202,11 +204,6 @@ p
 
 table(port_EDA$reason)
 
-port_EDA$G_average_mean_reason[port$reason=="course"] <- mean(port_EDA$G_average[port$reason=="course"],)
-port_EDA$G_average_mean_reason[port$reason=="home"] <- mean(port_EDA$G_average[port$reason=="home"],)
-port_EDA$G_average_mean_reason[port$reason=="other"] <- mean(port_EDA$G_average[port$reason=="other"],)
-port_EDA$G_average_mean_reason[port$reason=="reputation"] <- mean(port_EDA$G_average[port$reason=="reputation"],)
-
 p<-ggplot(port_EDA, aes(x=G_average, y=reason)) +
   geom_violin(aes(fill=reason, color=reason),position="identity", alpha=0.8)+
   scale_x_continuous(breaks=c(2,4,6,8,10,12,14,16,18,20))+
@@ -216,10 +213,6 @@ p
 #guardian
 
 table(port_EDA$guardian)
-
-port_EDA$G_average_mean_guardian[port$guardian=="father"] <- mean(port_EDA$G_average[port$guardian=="father"],)
-port_EDA$G_average_mean_guardian[port$guardian=="mother"] <- mean(port_EDA$G_average[port$guardian=="mother"],)
-port_EDA$G_average_mean_guardian[port$guardian=="other"] <- mean(port_EDA$G_average[port$guardian=="other"],)
 
 
 p<-ggplot(port_EDA, aes(x=G_average, y=guardian)) +
@@ -415,7 +408,7 @@ p
 
 # studytime
 table(port_EDA$studytime)
-
+plot(port_EDA$studytime,port_EDA$G_average)
 
 port_EDA$studytime <- as.character(port_EDA$studytime)
 p<-ggplot(port_EDA, aes(x=G_average, y=studytime)) +
@@ -426,7 +419,7 @@ p
 
 # failures
 table(port_EDA$failures)
-
+plot(port_EDA$failures,port_EDA$G_average)
 
 port_EDA$failures <- as.character(port_EDA$failures)
 p<-ggplot(port_EDA, aes(x=G_average, y=failures)) +
@@ -439,10 +432,13 @@ p
 #Modelle
 
 #Vergleichsmetrik
+
+mean(traindata$G_average)
+
 mean.mqa <- mean(
   (testdata$G_average - mean(traindata$G_average))^2
 )
-mean.mqa
+mean.mqa # seed 12:6,70  seed 42:7,39 seed 10: 8,31
 
 
 #Lineare Regression
@@ -476,6 +472,7 @@ test.mqa.lm <- mean(
 )
 
 test.mqa.lm
+
 
 
 #Skalierung für Lasso und Ridge
@@ -514,7 +511,9 @@ ridge.cv.out <- cv.glmnet(
 ridge.cv.out
 plot(ridge.cv.out)
 ridge.best.lambda <- ridge.cv.out$lambda.min
-ridge.best.lambda
+ridge.best.lambda  #seed 12: 0,93  seed 42 0,93  1,42
+
+
 
 ridge.fit <- glmnet(
   x      = X.train,
@@ -525,17 +524,17 @@ ridge.fit <- glmnet(
 
 coef(ridge.fit)
 
-#train 5,13
+
 ridge.prediction.train <- predict(
   object = ridge.fit,
   newx   = X.train
 )
-ridge.prediction.train
+ridge.prediction.train  
 
 mqa.ridge.train <- mean( (ridge.prediction.train - y.train)^2 )
-mqa.ridge.train 
+mqa.ridge.train # seed12 5,09     seed 42 5,15   5,33
 
-#test 4,768
+
 ridge.prediction.test <- predict(
   object = ridge.fit,
   newx   = X.test
@@ -543,7 +542,7 @@ ridge.prediction.test <- predict(
 ridge.prediction.test
 
 mqa.ridge.test <- mean( (ridge.prediction.test - y.test)^2 )
-mqa.ridge.test 
+mqa.ridge.test #seed 12 5,13    seed 42 4,77   seed 100 4,42
 
 #Lasso Regression
 
@@ -557,7 +556,7 @@ lasso.cv.out <- cv.glmnet(
 lasso.cv.out
 plot(lasso.cv.out)
 lasso.best.lambda <- lasso.cv.out$lambda.min
-lasso.best.lambda
+lasso.best.lambda #seed 12 0,1   0,057  0,1
 
 lasso.fit <- glmnet(
   x      = X.train,
@@ -568,24 +567,24 @@ lasso.fit <- glmnet(
 
 coef(lasso.fit)
 
-#trainingsfehler5,1
+
 lasso.prediction.train <- predict(
   object = lasso.fit, 
   newx   = X.train
 )
 
 mqa.lasso.train <- mean( (lasso.prediction.train - y.train)^2 )
-mqa.lasso.train
+mqa.lasso.train #seed12 5,20   seed 42 5,11   seed 100 5,4
 
 
-#testfehler 4,96
+
 lasso.prediction.test <- predict(
   object = lasso.fit, 
   newx   = X.test
 )
 
 mqa.lasso.test <- mean( (lasso.prediction.test - y.test)^2 )
-mqa.lasso.test
+mqa.lasso.test #seed 12 5,05  seed 42 4,96   4,47
 
 
 sum.fit <- coef(lasso.fit)
@@ -601,7 +600,6 @@ sum.fit.ordered
 maxdegree <- 2
 cv.errors          <- rep(0,maxdegree)
 glm.polynomial.fit <- vector(mode="list", length=8)
-
 
 colnames <- toString(colnames(port))
 formula <- paste('G_average ~ poly(', colnames, ',degree=i, raw=TRUE)')
@@ -640,7 +638,7 @@ glm.polynomial.fit <- vector(mode="list", length=4)
 for (i in 1:maxdegree){
   
   glm.polynomial.fit[[i]] <- glm(   
-    formula =  G_average ~ poly(higher_yes,Fjob_teacher,failures,schoolsup_yes, degree=i, raw=TRUE),
+    formula =  G_average ~ poly(higher_yes,Fjob_teacher,failures,schoolsup_yes,school_MS, degree=i, raw=TRUE),
     data    = traindata
   )
   
@@ -660,9 +658,14 @@ plot(x = degree, y = cv.errors)
 lines(x = degree, y = cv.errors)
 
 poly_fit <- glm(   
-  formula =  G_average ~ poly(higher_yes,Fjob_teacher,failures,schoolsup_yes, degree=2, raw=TRUE),
+  formula =  G_average ~ poly(higher_yes,Fjob_teacher,failures,schoolsup_yes, degree=3, raw=TRUE),
   data    = traindata
 )
+
+plot(port$age,port$G_average)
+
+
+poly_fit
 
 train.mqa.lm <- mean(
   (traindata$G_average - predict(poly_fit, newdata=traindata))^2
