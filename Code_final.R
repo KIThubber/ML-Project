@@ -33,6 +33,12 @@ port <- read.table(file="C:/Users/Jan/OneDrive/Dokumente/Studium/4_Semester/Data
 
 #Aufteilen in Trainings und Testdaten, 3 verscheiden Aufteilungen
 
+
+
+#Durchschnittsnote
+port$G_average <- (port$G1 + port$G2 + port$G3)/3 #Die 3 Teilnoten werden in eine Durchschnittsnote überführt
+port <- port %>% select(-G1,-G2,-G3) # Die 3 Teilnoten werden aus dem Datensatz entfernt
+
 #Aufteilung 1
 set.seed(12)
 
@@ -57,9 +63,7 @@ testdata <- port[-trainingsrows,]
 
 
 
-#Durchschnittsnote
-port$G_average <- (port$G1 + port$G2 + port$G3)/3 #Die 3 Teilnoten werden in eine Durchschnittsnote überführt
-port <- port %>% select(-G1,-G2,-G3) # Die 3 Teilnoten werden aus dem Datensatz entfernt
+
 
 
 
@@ -434,6 +438,7 @@ p
 #Vergleichsmetrik
 
 mean(traindata$G_average)
+traindata$G
 
 mean.mqa <- mean(
   (testdata$G_average - mean(traindata$G_average))^2
