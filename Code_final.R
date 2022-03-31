@@ -695,7 +695,6 @@ testdata <- port[-trainingsrows,]
 default.model <- rpart(formula = G_average ~ ., data = traindata, method="anova",control=rpart.control(cp=0))
 summary(default.model)
 rpart.plot(default.model)
-text(default.model)
 
 cptable <- printcp(default.model)
 mincp <- cptable[which.min(cptable[,"xerror"]),"CP"]
@@ -715,7 +714,6 @@ mean(
 
 default.model_pruned <- prune(default.model, cp = mincp)
 rpart.plot(default.model_pruned)
-text(default.model_pruned)
 
 traindata$pred <- predict(default.model_pruned, traindata)
 testdata$pred <- predict(default.model_pruned, testdata)
