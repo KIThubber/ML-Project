@@ -692,7 +692,8 @@ summary(default.model)
 rpart.plot(default.model)
 text(default.model)
 
-printcp(default.model)
+cptable <- printcp(default.model)
+mincp <- cptable[which.min(cptable[,"xerror"]),"CP"]
 plotcp(default.model)
 
 
@@ -707,7 +708,7 @@ mean(
   ( testdata$G_average - testdata$pred)^2
 )
 
-default.model_pruned <- prune(default.model, cp = 0.0157505)
+default.model_pruned <- prune(default.model, cp = mincp)
 rpart.plot(default.model_pruned)
 text(default.model_pruned)
 
