@@ -75,8 +75,6 @@ hist(port$G_average)
 sd(port$G_average)
 var(port$G_average)
 
-
-
 port_EDA <- port #Anlegen eines extra Datensatzes, an dem Anpassungen für die EDA durchgeführt werden können
 View(port_EDA)
 
@@ -433,6 +431,8 @@ p<-ggplot(port_EDA, aes(x=G_average, y=failures)) +
 p
 
 
+
+
 #Modelle
 
 #Vergleichsmetrik
@@ -591,11 +591,6 @@ lasso.prediction.test <- predict(
 mqa.lasso.test <- mean( (lasso.prediction.test - y.test)^2 )
 mqa.lasso.test #seed 12 5,05  seed 42 4,96   4,47
 
-
-sum.fit <- coef(lasso.fit)
-typeof(sum.fit)
-sum.fit.ordered <- sum.fit[order(abs(sum.fit$s0)),]
-sum.fit.ordered
 
 
 #Polynominale Regression
