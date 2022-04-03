@@ -62,18 +62,14 @@ testdata <- port[-trainingsrows,]
 
 
 
-
-
-
-
-
 #Explorative Datenanalyse
 
 sum(is.na(port)) #keine NAs, sehr gnädiger Datensatz hinsichtlich der Datenaufbereinigung
 summary(port$G_average)
-hist(port$G_average)
+ggplot(port_EDA, aes(x=G_average)) + geom_histogram(color="black", fill="grey")
 sd(port$G_average)
 var(port$G_average)
+
 
 port_EDA <- port #Anlegen eines extra Datensatzes, an dem Anpassungen für die EDA durchgeführt werden können
 View(port_EDA)
@@ -84,6 +80,21 @@ cordatamatrix <- cor(cordata)#Erstellen einer Korrelationsmatrix
 corrplot(cordatamatrix, type = "upper", order = "hclust", 
          tl.col = "black", tl.srt = 45)
 
+
+# KS Test
+ks.test(port_EDA$G_average, "pnorm")
+
+# QQLine
+qqnorm(port_EDA$G_average)
+port_EDA$zG_average <-scale(port_EDA$G_average)
+qqnorm(port_EDA$zG_average)
+qqline(port_EDA$zG_average)
+
+#age
+plot(port_EDA$G_average,port$age)
+
+#absences
+plot(port_EDA$G_average,port$absences)
 
 #scool
 table(port_EDA$school)
@@ -429,8 +440,6 @@ p<-ggplot(port_EDA, aes(x=G_average, y=failures)) +
   scale_x_continuous(breaks=c(2,4,6,8,10,12,14,16,18,20))+
   stat_summary(fun.data="mean_sdl",geom="crossbar", width=0.05 )
 p
-
-
 
 
 #Modelle
